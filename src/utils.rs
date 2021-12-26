@@ -1,5 +1,6 @@
 use cfg_if::cfg_if;
-use worker::{Error, Response};
+use http_auth_basic::Credentials;
+use worker::{Error, Response, RouteContext};
 
 cfg_if! {
     // https://github.com/rustwasm/console_error_panic_hook#readme
@@ -34,4 +35,18 @@ pub async fn map_reqwest_response(response: reqwest::Response) -> Result<Respons
     }
 
     Ok(worker_response)
+}
+
+pub fn make_github_auth_header(ctx: &RouteContext<()>) -> String {
+    let github_username = ctx
+        .var("GITHUB_USERNAME")
+        .expect("Missing \"GITHUB_USERNAME\" environment variable")
+        .to_string();
+    let github_personal_access_token = ctx
+        .var("GITHUB_API_TOKEN")
+        .expect("Missing \"GITHUB_API_TOKEN\" environment variable")
+        .to_string();
+    let credentials = Credentials::new(&github_username, &github_personal_access_token);
+
+    credentials.as_http_header()
 }

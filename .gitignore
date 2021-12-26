@@ -4,3 +4,4 @@ wasm-pack.log
 build/
 wrangler.toml
 bin/run.sh
+.pnpm-debug.log
