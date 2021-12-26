@@ -1,9 +1,11 @@
-name = "website-proxy"
+name = "website-api"
 type = "javascript"
 workers_dev = true
 compatibility_date = "2021-12-26"
 
 [vars]
+GITHUB_API_TOKEN = ""
+GITHUB_USERNAME = ""
 WORKERS_RS_VERSION = "0.0.7"
 
 [build]
